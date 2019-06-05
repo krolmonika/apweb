@@ -4,72 +4,99 @@
 {% block content %}
 
 <div class="page-header">
-  <h1>Please fill the form</h1>
+  <h1>Prosze wepełnić ankietę</h1>
 </div>
 
 <form role="form" action="/save" method="post">
     <h3>Personal data</h3>
     <div class="form-group">
-        <label for="firstname">Firstname:</label>
+        <label for="firstname">Imię:</label>
         <input type="text" class="form-control" id="firstname" name="firstname" required>
     </div>
     <div class="form-group">
-        <label for="email">Email address:</label>
+        <label for="email">adres email:</label>
         <input type="email" class="form-control" id="email" name="email" required>
     </div>
+{#    <div class="form-group">#}
+{#        <label for="age">Wiek:</label>#}
+{#        <input type="number" class="form-control" id="age" name="age" min="1" max="100" required>#}
+{#    </div>#}
+    <h3>Krakowski planszowy świat</h3>
+    <h4>Cześć, dziękuję Ci, że poświęcasz swój czas na ankietę! Twoje odpowiedzi pomogą nam, studentom Informatyki i
+        Elektroniki w Medycynie w składzie: Monika, Magda, Bartek, Bartosz...., wykonać Projekt końcowo-roczny!
+        Pytania odnoszą się do naszej przygody z grami planszowymi :)
+    </h4>
+
     <div class="form-group">
-        <label for="age">Age:</label>
-        <input type="number" class="form-control" id="age" name="age" min="1" max="100" required>
-    </div>
-    <h3>Employee Job Satisfaction</h3>
-    <div class="form-group">
-      <label for="income">Annual income $:</label>
-      <select class="form-control" id="income" name="income">
-        <option>20</option>
-        <option>50</option>
-        <option>100</option>
-        <option>150</option>
+      <label for="iff">Czy jako dziecko grałeś w gry plasznowe:</label>
+      <select class="form-control" id="iff" name="if">
+        <option>Tak</option>
+        <option>Nie</option>
       </select>
     </div>
+
     <div class="form-group">
-        <label for="satisfaction">Considering everything, how satisfied are you with your job?</label>
-        <input type="number" class="form-control" id="satisfaction" name="satisfaction" min="1" max="5" required>
+      <label for="which">Jeśli tak to w jakie:</label>
+      <select class="form-control" id="which" name="which">
+        <option>Chińczyk</option>
+        <option>Eurobiznes/Monopoly</option>
+        <option>Statki/okręty</option>
+        <option>Warcaby</option>
+        <option>Scrabble</option>
+      </select>
     </div>
-    <h3>Programming skills</h3>
-    <b>Rate your proficiency with Python language</b>
+
+    <div class="form-group">
+      <label for="if_now">Czy obecnie grasz w gry plasznowe:</label>
+      <select class="form-control" id="if_now" name="if_now">
+        <option>Tak</option>
+        <option>Nie</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="type">Jaki gatunek najczęściej wybierasz:</label>
+      <select class="form-control" id="type" name="type">
+        <option>Strategiczne</option>
+        <option>Wojenne</option>
+        <option>Imprezowe</option>
+        <option>Eurogry</option>
+        <option>Karciane</option>
+        <option>Familijne</option>
+        <option>Fantasy</option>
+      </select>
+    </div>
+
+{#    <div class="form-group">#}
+{#        <label for="satisfaction">Considering everything, how satisfied are you with your job?</label>#}
+{#        <input type="number" class="form-control" id="satisfaction" name="satisfaction" min="1" max="5" required>#}
+{#    </div>#}
+    <h3>Płeć</h3>
+{#    <b>Rate your proficiency with Python language</b>#}
     <div class="form-group">
         <label class="radio-inline">
-          <input type="radio" name="q1" value="1">1 (Beginner)
+          <input type="radio" name="q1" value="1"> Kobieta
         </label>
         <label class="radio-inline">
-          <input type="radio" name="q1" value="2">2 (Junior)
-        </label>
-        <label class="radio-inline">
-          <input type="radio" name="q1" value="3" checked>3 (Middle)
-        </label>
-        <label class="radio-inline">
-          <input type="radio" name="q1" value="4">4 (Senior)
-        </label>
-        <label class="radio-inline">
-          <input type="radio" name="q1" value="5">5 (Expert)
+          <input type="radio" name="q1" value="2"> Mężczyzna
         </label>
     </div>
-    <b>Rate your proficiency with Flask framework</b>
+    <b>Wiek</b>
     <div class="form-group">
         <label class="radio-inline">
-          <input type="radio" name="q2" value="1">1 (Beginner)
+          <input type="radio" name="q2" value="1">do 18
         </label>
         <label class="radio-inline">
-          <input type="radio" name="q2" value="2">2 (Junior)
+          <input type="radio" name="q2" value="2">19-25
         </label>
         <label class="radio-inline">
-          <input type="radio" name="q2" value="3" checked>3 (Middle)
+          <input type="radio" name="q2" value="3" checked>26-45
         </label>
         <label class="radio-inline">
-          <input type="radio" name="q2" value="4">4 (Senior)
+          <input type="radio" name="q2" value="4">46-55
         </label>
         <label class="radio-inline">
-          <input type="radio" name="q2" value="5">5 (Expert)
+          <input type="radio" name="q2" value="5">55+
         </label>
     </div>
 
