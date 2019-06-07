@@ -14,8 +14,8 @@ class Formdata(db.Model):
     __tablename__ = 'formdata'
     id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.DateTime, default=datetime.now)
-    firstname = db.Column(db.String, nullable=False)
-    email = db.Column(db.String)
+    # firstname = db.Column(db.String, nullable=False)
+    # email = db.Column(db.String)
     iff = db.Column(db.String)
     which = db.Column(db.String)
     if_now = db.Column(db.String)
@@ -23,9 +23,9 @@ class Formdata(db.Model):
     q1 = db.Column(db.Integer)
     q2 = db.Column(db.Integer)
 
-    def __init__(self, firstname, email, iff, which, if_now, type, q1, q2):
-        self.firstname = firstname
-        self.email = email
+    def __init__(self, iff, which, if_now, type, q1, q2):
+        # self.firstname = firstname
+        # self.email = email
         self.iff = iff
         self.which = which
         self.if_now = if_now
@@ -101,8 +101,8 @@ def show_result():
 @app.route("/save", methods=['POST'])
 def save():
     # Get data from FORM
-    firstname = request.form['firstname']
-    email = request.form['email']
+    # firstname = request.form['firstname']
+    # email = request.form['email']
     iff = request.form['if']
     which = request.form['which']
     if_now = request.form['if_now']
@@ -111,7 +111,7 @@ def save():
     q2 = request.form['q2']
 
     # Save the data
-    fd = Formdata(firstname, email, iff, which, if_now, type, q1, q2)
+    fd = Formdata(iff, which, if_now, type, q1, q2)
     db.session.add(fd)
     db.session.commit()
 
