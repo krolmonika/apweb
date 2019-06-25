@@ -11,16 +11,40 @@
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">
   google.load('visualization', '1', {'packages':['corechart']});
-  google.setOnLoadCallback(drawChart);
-  function drawChart() {
-    var data = new google.visualization.DataTable();
-    data.addColumn('string', 'Question');
-    data.addColumn('number', 'Average answer');
-    data.addRows( {{ data|tojson }} );
-    var chart = new google.visualization.ColumnChart(
-            document.getElementById('chart_div'));
-    chart.draw(data, {legend: 'none', vAxis: {baseline: 0} });
+  google.setOnLoadCallback(drawCharts);
+
+  class DataSplitter {
+      constructor() {
+          this.allData = {{ data|tojson }}
+      }
+
+      getChartData(chartType) {
+          return this.allData[chartType];
+      }
   }
+
+  class ChartDrawer {
+      static drawBarChart(chartData) {
+          var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+          chart.draw(ChartDrawer.prepareData([['string', 'Question'], ['number', 'Average answer']], chartData),
+                     {legend: 'none', vAxis: {baseline: 0} });
+      }
+
+      static prepareData(chartConfig, chartData) {
+          var data = new google.visualization.DataTable();
+          for (var index = 0; index < chartConfig.length; index++) {
+              data.addColumn(chartConfig[index][0], chartConfig[index][1]);
+          }
+          data.addRows(chartData);
+          return data;
+      }
+  }
+
+  function drawCharts() {
+      var dataSplitter = new DataSplitter();
+      ChartDrawer.drawBarChart(dataSplitter.getChartData('barChart'));
+  }
+
 </script>
 
 {% endblock %}

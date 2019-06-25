@@ -36,6 +36,50 @@ class Formdata(db.Model):
 db.create_all()
 
 
+class DatabaseLoader:
+    def __init__(self):
+        self.queryResponse = db.session.query(Formdata).all()
+        self.dbData = {'played_as_child' : [],
+                       'games' : [],
+                       'plays_now' : [],
+                       'type' : [],
+                       'sex' : [],
+                       'age' : []}
+
+    def loadAsDictionary(self):
+        for databaseRecord in self.queryResponse:
+            self.dbData['played_as_child'].append(databaseRecord.iff)
+            self.dbData['games'].append(databaseRecord.which)
+            self.dbData['plays_now'].append(databaseRecord.if_now)
+            self.dbData['type'].append(databaseRecord.type)
+            self.dbData['sex'].append(databaseRecord.q1)
+            self.dbData['age'].append(databaseRecord.q2)
+        return self.dbData
+
+
+class ResultsDisplayer:
+    def __init__(self):
+        databaseLoader = DatabaseLoader()
+        self.dbData = databaseLoader.loadAsDictionary()
+        self.chartData = {}
+
+    def getAmount(self, column, value=None):
+        if value is None:
+            return len(self.dbData[column])
+        else:
+            print(value)
+            return self.dbData[column].count(value)
+
+    def prepareBarChart(self):
+        playedAsChild = self.getAmount('played_as_child', 'Tak')
+        playedSpecificGame = self.getAmount('games', 'Chińczyk')
+        self.chartData['barChart'] = [['Czy grałeś', playedAsChild], ['W co', playedSpecificGame]]
+
+    def prepareCharts(self):
+        self.prepareBarChart()
+        return self.chartData
+
+
 @app.route("/")
 def welcome():
     return render_template('welcome.html')
@@ -49,54 +93,10 @@ def show_raw():
     fd = db.session.query(Formdata).all()
     return render_template('raw.html', formdata=fd)
 
-
 @app.route("/result")
 def show_result():
-    fd_list = db.session.query(Formdata).all()
-
-    # Some simple statistics for sample questions
-    iff = []
-    which = []
-    if_now = []
-    type = []
-    q1 = []
-    q2 = []
-    for el in fd_list:
-        iff.append(el.iff)
-        which.append(el.which)
-        if_now.append(el.if_now)
-        type.append(el.type)
-        q1.append((el.q1))
-        q2.append((el.q2))
-
-    # TODO skończy funckję show_result. mamy 6 list z odpowiedziami.
-    #  Trzeba wyznaczyc z nich jakies sensowne statystyki. Radnomowe przykłady poniżej.
-    #  Edycję wykresow (typ, wyglad, kolorki etc) w pliku result.html
-    #  wiecej info: https://developers.google.com/chart/interactive/docs/basic_load_libs
-
-    if len(iff) > 0:
-        # mean_satisfaction = statistics.mean(satisfaction)
-        number_of_iff = iff.count('Tak')
-    else:
-        number_of_iff = iff.count('Nie')
-
-    if len(which) > 0:
-        which_stat = iff.count('Chińczyk')
-    else:
-        mean_q1 = 0
-
-    # if len(q2) > 0:
-    #     mean_q2 = statistics.mean(q2)
-    # else:
-    #     mean_q2 = 0
-
-    # Prepare data for google charts
-    data = [['Czy grałeś', number_of_iff], ['W co', which_stat]]
-
-    return render_template('result.html', data=data)
-
-
-
+    resultsDisplayer = ResultsDisplayer()
+    return render_template('result.html', data=resultsDisplayer.prepareCharts())
 
 @app.route("/save", methods=['POST'])
 def save():
