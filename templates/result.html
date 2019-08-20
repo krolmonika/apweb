@@ -1,26 +1,221 @@
-<!-- extend base layout -->
-{% extends "base.html" %}
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="../static/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="../static/css/bootstrap-theme.min.css">
+<script src="../static/js/bootstrap.min.js"></script>
 
-{% block content %}
-
-<div class="page-header">
-    <h1>Results</h1>
-    <div id="chart_div"></div>
+<div class="jumbotron text-center">
+    <h1>Krakowski planszowy świat</h1>
+    <a href="/" class="btn btn-primary btn-sm" role="button" style="width: 100px; height: 35px">Wróć</a><br><br>
 </div>
+
+<div class="container">
+    <div class="page-header">
+        <h1>Wyniki:</h1>
+
+    </div>
+    <br>
+    <p>
+    <div class="page-header">
+
+        <div id="who_played_chart_div"></div>
+        <div id="who_played_age_chart_div"></div>
+        <div id="who_played_women_chart_div"></div>
+        <div id="who_played_men_chart_div"></div>
+        <div id="most_popular_games_chart_div"></div>
+        <div id="most_popular_games_women_chart_div"></div>
+        <div id="most_popular_games_men_chart_div"></div>
+        <div id="most_popular_types_chart_div"></div>
+        <div id="most_popular_types_women_chart_div"></div>
+        <div id="most_popular_types_men_chart_div"></div>
+        <div id="who_plays_chart_div"></div>
+        <div id="who_plays_age_chart_div"></div>
+        <div id="who_plays_women_chart_div"></div>
+        <div id="who_plays_men_chart_div"></div>
+        <div id="gaming_habits_chart_div"></div>
+        <div id="gaming_habits_women_chart_div"></div>
+        <div id="gaming_habits_men_chart_div"></div>
+    </div>
+    </p>
+</div>
+
 
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">
   google.load('visualization', '1', {'packages':['corechart']});
-  google.setOnLoadCallback(drawChart);
-  function drawChart() {
-    var data = new google.visualization.DataTable();
-    data.addColumn('string', 'Question');
-    data.addColumn('number', 'Average answer');
-    data.addRows( {{ data|tojson }} );
-    var chart = new google.visualization.ColumnChart(
-            document.getElementById('chart_div'));
-    chart.draw(data, {legend: 'none', vAxis: {baseline: 0} });
-  }
-</script>
+  google.setOnLoadCallback(drawCharts);
 
-{% endblock %}
+  class DataSplitter {
+      constructor() {
+          this.allData = {{ data|tojson }}
+      }
+
+      getChartData(chartType) {
+          return this.allData[chartType];
+      }
+  }
+
+  class ChartDrawer {
+      static drawGamingHabitsOverTimeChart(chartData) {
+          var chart = new google.visualization.PieChart(document.getElementById('gaming_habits_chart_div'));
+          chart.draw(ChartDrawer.prepareData([['string', 'Stosuek do gier'], ['number', 'Ilość odpowiedzi']],
+                                             chartData),
+                     {title: 'Zainteresowanie grami', legend: chartData, vAxis: {baseline: 0} });
+      }
+
+      static drawGamingHabitsOverTimeMenChart(chartData) {
+          var chart = new google.visualization.PieChart(document.getElementById('gaming_habits_men_chart_div'));
+          chart.draw(ChartDrawer.prepareData([['string', 'Stosuek do gier'], ['number', 'Ilość odpowiedzi']],
+                                             chartData),
+                     {title: 'Zainteresowanie grami mężczyzn', legend: chartData, vAxis: {baseline: 0} });
+      }
+
+      static drawGamingHabitsOverTimeWomenChart(chartData) {
+          var chart = new google.visualization.PieChart(document.getElementById('gaming_habits_women_chart_div'));
+          chart.draw(ChartDrawer.prepareData([['string', 'Stosuek do gier'], ['number', 'Ilość odpowiedzi']],
+                                             chartData),
+                     {title: 'Zainteresowanie grami kobiet', legend: chartData, vAxis: {baseline: 0} });
+      }
+
+      static drawMostPopularGamesChart(chartData) {
+          var chart = new google.visualization.PieChart(document.getElementById('most_popular_games_chart_div'));
+          chart.draw(ChartDrawer.prepareData([['string', 'Gra'], ['number', 'Ilość odpowiedzi']],
+                                             chartData),
+                     {title: 'Najpopularniejsze gry', legend: chartData, vAxis: {baseline: 0} });
+      }
+
+      static drawMostPopularGamesMenChart(chartData) {
+          var chart = new google.visualization.PieChart(document.getElementById('most_popular_games_men_chart_div'));
+          chart.draw(ChartDrawer.prepareData([['string', 'Gra'], ['number', 'Ilość odpowiedzi']],
+                                             chartData),
+                     {title: 'Najpopularniejsze gry wśród mężczyzn', legend: chartData, vAxis: {baseline: 0} });
+      }
+
+      static drawMostPopularGamesWomenChart(chartData) {
+          var chart = new google.visualization.PieChart(document.getElementById('most_popular_games_women_chart_div'));
+          chart.draw(ChartDrawer.prepareData([['string', 'Gra'], ['number', 'Ilość odpowiedzi']],
+                                             chartData),
+                     {title: 'Najpopularniejsze gry wśród kobiet', legend: chartData, vAxis: {baseline: 0} });
+      }
+
+      static drawMostPopularTypesChart(chartData) {
+          var chart = new google.visualization.PieChart(document.getElementById('most_popular_types_chart_div'));
+          chart.draw(ChartDrawer.prepareData([['string', 'Gatunek'], ['number', 'Ilość odpowiedzi']],
+                                             chartData),
+                     {title: 'Najpopularniejsze gatunki gier', legend: chartData, vAxis: {baseline: 0} });
+      }
+
+      static drawMostPopularTypesMenChart(chartData) {
+          var chart = new google.visualization.PieChart(document.getElementById('most_popular_types_men_chart_div'));
+          chart.draw(ChartDrawer.prepareData([['string', 'Gatunek'], ['number', 'Ilość odpowiedzi']],
+                                             chartData),
+                     {title: 'Najpopularniejsze gatunki gier wśród mężczyzn', legend: chartData, vAxis: {baseline: 0} });
+      }
+
+      static drawMostPopularTypesWomenChart(chartData) {
+          var chart = new google.visualization.PieChart(document.getElementById('most_popular_types_women_chart_div'));
+          chart.draw(ChartDrawer.prepareData([['string', 'Gatunek'], ['number', 'Ilość odpowiedzi']],
+                                             chartData),
+                     {title: 'Najpopularniejsze gatunki gier wśród kobiet', legend: chartData, vAxis: {baseline: 0} });
+      }
+
+      static drawWhoPlayedChart(chartData) {
+          var chart = new google.visualization.ColumnChart(document.getElementById('who_played_chart_div'));
+          chart.draw(ChartDrawer.prepareData([['string', 'Czy grali w gry jako dzieci?'],
+                                              ['number', 'Ilość odpowiedzi']],
+                                              chartData),
+                     {title: 'Osoby grające w gry jako dzieci',legend: 'none', vAxis: {baseline: 0} });
+      }
+
+      static drawWhoPlayedAgeChart(chartData) {
+          var chart = new google.visualization.ColumnChart(document.getElementById('who_played_age_chart_div'));
+          chart.draw(ChartDrawer.prepareData([['string', 'Czy grali w gry jako dzieci?'],
+                                              ['number', 'Procent odpowiedzi twierdzących']],
+                                              chartData),
+                     {title: 'Procent osób grających w gry jako dzieci w zależności od wieku',
+                      legend: chartData, vAxis: {baseline: 0} });
+      }
+
+      static drawWhoPlayedMenChart(chartData) {
+          var chart = new google.visualization.ColumnChart(document.getElementById('who_played_men_chart_div'));
+          chart.draw(ChartDrawer.prepareData([['string', 'Czy grali w gry jako dzieci?'],
+                                              ['number', 'Ilość odpowiedzi']],
+                                              chartData),
+                     {title: 'Mężczyźni grający w gry jako dzieci',legend: 'none', vAxis: {baseline: 0} });
+      }
+
+      static drawWhoPlayedWomenChart(chartData) {
+          var chart = new google.visualization.ColumnChart(document.getElementById('who_played_women_chart_div'));
+          chart.draw(ChartDrawer.prepareData([['string', 'Czy grali w gry jako dzieci?'],
+                                              ['number', 'Ilość odpowiedzi']],
+                                              chartData),
+                     {title: 'Kobiety grające w gry jako dzieci',legend: 'none', vAxis: {baseline: 0} });
+      }
+
+      static drawWhoPlaysChart(chartData) {
+          var chart = new google.visualization.ColumnChart(document.getElementById('who_plays_chart_div'));
+          chart.draw(ChartDrawer.prepareData([['string', 'Czy grają w gry?'],
+                                              ['number', 'Ilość odpowiedzi']],
+                                              chartData),
+                     {title: 'Osoby grające w gry obecnie',legend: 'none', vAxis: {baseline: 0} });
+      }
+
+      static drawWhoPlaysAgeChart(chartData) {
+          var chart = new google.visualization.ColumnChart(document.getElementById('who_plays_age_chart_div'));
+          chart.draw(ChartDrawer.prepareData([['string', 'Czy grają w gry?'],
+                                              ['number', 'Ilość odpowiedzi']],
+                                              chartData),
+                     {title: 'Procent osób grających w gry obecnie w zależności od wieku',
+                      legend: 'none', vAxis: {baseline: 0} });
+      }
+
+      static drawWhoPlaysMenChart(chartData) {
+          var chart = new google.visualization.ColumnChart(document.getElementById('who_plays_men_chart_div'));
+          chart.draw(ChartDrawer.prepareData([['string', 'Czy grają w gry obecnie?'],
+                                              ['number', 'Ilość odpowiedzi']],
+                                              chartData),
+                     {title: 'Mężczyźni grający w gry obecnie',legend: 'none', vAxis: {baseline: 0} });
+      }
+
+      static drawWhoPlaysWomenChart(chartData) {
+          var chart = new google.visualization.ColumnChart(document.getElementById('who_plays_women_chart_div'));
+          chart.draw(ChartDrawer.prepareData([['string', 'Czy grają w gry obecnie?'],
+                                              ['number', 'Ilość odpowiedzi']],
+                                              chartData),
+                     {title: 'Kobiety grające w gry obecnie',legend: 'none', vAxis: {baseline: 0} });
+      }
+
+      static prepareData(chartConfig, chartData) {
+          var data = new google.visualization.DataTable();
+          for (var index = 0; index < chartConfig.length; index++) {
+              data.addColumn(chartConfig[index][0], chartConfig[index][1]);
+          }
+          data.addRows(chartData);
+          return data;
+      }
+  }
+
+  function drawCharts() {
+      var dataSplitter = new DataSplitter();
+      ChartDrawer.drawWhoPlayedChart(dataSplitter.getChartData('whoPlayed'));
+      ChartDrawer.drawWhoPlayedAgeChart(dataSplitter.getChartData('whoPlayedAge'));
+      ChartDrawer.drawWhoPlayedWomenChart(dataSplitter.getChartData('whoPlayedWomen'));
+      ChartDrawer.drawWhoPlayedMenChart(dataSplitter.getChartData('whoPlayedMen'));
+      ChartDrawer.drawMostPopularGamesChart(dataSplitter.getChartData('mostPopularGames'));
+      ChartDrawer.drawMostPopularGamesWomenChart(dataSplitter.getChartData('mostPopularGamesWomen'));
+      ChartDrawer.drawMostPopularGamesMenChart(dataSplitter.getChartData('mostPopularGamesMen'));
+      ChartDrawer.drawMostPopularTypesChart(dataSplitter.getChartData('mostPopularTypes'));
+      ChartDrawer.drawMostPopularTypesWomenChart(dataSplitter.getChartData('mostPopularTypesWomen'));
+      ChartDrawer.drawMostPopularTypesMenChart(dataSplitter.getChartData('mostPopularTypesMen'));
+      ChartDrawer.drawWhoPlaysChart(dataSplitter.getChartData('whoPlays'));
+      ChartDrawer.drawWhoPlaysAgeChart(dataSplitter.getChartData('whoPlaysAge'));
+      ChartDrawer.drawWhoPlaysWomenChart(dataSplitter.getChartData('whoPlaysWomen'));
+      ChartDrawer.drawWhoPlaysMenChart(dataSplitter.getChartData('whoPlaysMen'));
+      ChartDrawer.drawGamingHabitsOverTimeChart(dataSplitter.getChartData('gamingHabits'));
+      ChartDrawer.drawGamingHabitsOverTimeWomenChart(dataSplitter.getChartData('gamingHabitsWomen'));
+      ChartDrawer.drawGamingHabitsOverTimeMenChart(dataSplitter.getChartData('gamingHabitsMen'));
+  }
+
+
+</script>

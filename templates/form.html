@@ -1,108 +1,109 @@
-<!-- extend base layout -->
-{% extends "base.html" %}
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="../static/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="../static/css/bootstrap-theme.min.css">
+<script src="../static/js/bootstrap.min.js"></script>
 
-{% block content %}
-
-<div class="page-header">
-  <h1>Prosze wepełnić ankietę</h1>
+<div class="jumbotron text-center">
+    <h1>Krakowski planszowy świat</h1>
+    <a href="/" class="btn btn-primary btn-sm" role="button" style="width: 100px; height: 35px">Wróć</a><br><br>
 </div>
 
-<form role="form" action="/save" method="post">
-    <h3>Personal data</h3>
-    <div class="form-group">
-        <label for="firstname">Imię:</label>
-        <input type="text" class="form-control" id="firstname" name="firstname" required>
+<div class="container">
+    <div class="page-header">
+        <h1>Prosimy, wypełnij ankietę :)</h1>
     </div>
-    <div class="form-group">
-        <label for="email">adres email:</label>
-        <input type="email" class="form-control" id="email" name="email" required>
+    <br>
+    <div class="card">
+        <div class="card bg-light">
+            <div class="card-body">
+                <h2>Cześć!</h2>
+                <p align="justify"><font size="5">Dziękujemy Ci, że poświęcasz nam swój, jakże cenny, czas. Twoje
+                    odpowiedzi pomogą nam, studentom Informatyki i Elektroniki w Medycynie, w składzie: Monika, Magda,
+                    Bartek, Bartosz, Justyna, Marta i Kuba, wykonać projekt końcowo-roczny!<br>
+                    Pytania odnoszą się do Twojej przygody z grami planszowymi.
+                    </front></p></div>
+        </div>
     </div>
-{#    <div class="form-group">#}
-{#        <label for="age">Wiek:</label>#}
-{#        <input type="number" class="form-control" id="age" name="age" min="1" max="100" required>#}
-{#    </div>#}
-    <h3>Krakowski planszowy świat</h3>
-    <h4>Cześć, dziękuję Ci, że poświęcasz swój czas na ankietę! Twoje odpowiedzi pomogą nam, studentom Informatyki i
-        Elektroniki w Medycynie w składzie: Monika, Magda, Bartek, Bartosz...., wykonać Projekt końcowo-roczny!
-        Pytania odnoszą się do naszej przygody z grami planszowymi :)
-    </h4>
+    <br>
+    <div class="row">
+        <div class="col-5">
+            <form role="form" action="/save" method="post">
 
-    <div class="form-group">
-      <label for="iff">Czy jako dziecko grałeś w gry plasznowe:</label>
-      <select class="form-control" id="iff" name="if">
-        <option>Tak</option>
-        <option>Nie</option>
-      </select>
-    </div>
+                <div class="form-group">
+                    <label for="iff">Czy jako dziecko grałeś w gry planszowe:</label>
+                    <select class="form-control" id="iff" name="if">
+                        <option>Tak</option>
+                        <option>Nie</option>
+                    </select>
+                </div>
 
-    <div class="form-group">
-      <label for="which">Jeśli tak to w jakie:</label>
-      <select class="form-control" id="which" name="which">
-        <option>Chińczyk</option>
-        <option>Eurobiznes/Monopoly</option>
-        <option>Statki/okręty</option>
-        <option>Warcaby</option>
-        <option>Scrabble</option>
-      </select>
-    </div>
+                <div class="form-group">
+                    <label for="which">Jeśli tak to w jakie:</label>
+                    <select class="form-control" id="which" name="which">
+                        <option>Chińczyk</option>
+                        <option>Eurobiznes/Monopoly</option>
+                        <option>Statki/okręty</option>
+                        <option>Warcaby</option>
+                        <option>Scrabble</option>
+                    </select>
+                </div>
 
-    <div class="form-group">
-      <label for="if_now">Czy obecnie grasz w gry plasznowe:</label>
-      <select class="form-control" id="if_now" name="if_now">
-        <option>Tak</option>
-        <option>Nie</option>
-      </select>
-    </div>
+                <div class="form-group">
+                    <label for="if_now">Czy obecnie grasz w gry planszowe:</label>
+                    <select class="form-control" id="if_now" name="if_now">
+                        <option>Tak</option>
+                        <option>Nie</option>
+                    </select>
+                </div>
 
-    <div class="form-group">
-      <label for="type">Jaki gatunek najczęściej wybierasz:</label>
-      <select class="form-control" id="type" name="type">
-        <option>Strategiczne</option>
-        <option>Wojenne</option>
-        <option>Imprezowe</option>
-        <option>Eurogry</option>
-        <option>Karciane</option>
-        <option>Familijne</option>
-        <option>Fantasy</option>
-      </select>
-    </div>
-
-{#    <div class="form-group">#}
-{#        <label for="satisfaction">Considering everything, how satisfied are you with your job?</label>#}
-{#        <input type="number" class="form-control" id="satisfaction" name="satisfaction" min="1" max="5" required>#}
-{#    </div>#}
-    <h3>Płeć</h3>
-{#    <b>Rate your proficiency with Python language</b>#}
-    <div class="form-group">
-        <label class="radio-inline">
-          <input type="radio" name="q1" value="1"> Kobieta
-        </label>
-        <label class="radio-inline">
-          <input type="radio" name="q1" value="2"> Mężczyzna
-        </label>
-    </div>
-    <b>Wiek</b>
-    <div class="form-group">
-        <label class="radio-inline">
-          <input type="radio" name="q2" value="1">do 18
-        </label>
-        <label class="radio-inline">
-          <input type="radio" name="q2" value="2">19-25
-        </label>
-        <label class="radio-inline">
-          <input type="radio" name="q2" value="3" checked>26-45
-        </label>
-        <label class="radio-inline">
-          <input type="radio" name="q2" value="4">46-55
-        </label>
-        <label class="radio-inline">
-          <input type="radio" name="q2" value="5">55+
-        </label>
-    </div>
+                <div class="form-group">
+                    <label for="type">Jaki gatunek najczęściej wybierasz:</label>
+                    <select class="form-control" id="type" name="type">
+                        <option>Strategiczne</option>
+                        <option>Wojenne</option>
+                        <option>Imprezowe</option>
+                        <option>Eurogry</option>
+                        <option>Karciane</option>
+                        <option>Familijne</option>
+                        <option>Fantasy</option>
+                    </select>
+                </div>
+                <b>Płeć</b>
+                <div class="form-group">
+                    <label class="radio-inline">
+                        <input type="radio" name="q1" value="1" checked> Kobieta
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="q1" value="2"> Mężczyzna
+                    </label>
+                </div>
+                <b>Wiek</b>
+                <div class="form-group">
+                    <label class="radio-inline">
+                        <input type="radio" name="q2" value="1"> do 18
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="q2" value="2"> 19-25
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="q2" value="3" checked> 26-45
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="q2" value="4"> 46-55
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="q2" value="5"> 55+
+                    </label>
+                </div>
 
 
-    <button type="submit" class="btn btn-default">Save</button>
-</form>
-
-{% endblock %}
+                <button type="submit" class="btn btn-info btn-lg" style="width: 250px; height: 50px">Prześlij
+                    odpowiedź
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
 
