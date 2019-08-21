@@ -326,8 +326,8 @@ def save():
     which = request.form['which']
     if_now = request.form['if_now']
     type = request.form['type']
-    q1 = request.form['age']
-    q2 = request.form['sex']
+    q1 = request.form['q1']
+    q2 = request.form['q2']
 
     # Save the data
     fd = Formdata(iff, which, if_now, type, q1, q2)
