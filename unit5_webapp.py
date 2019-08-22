@@ -5,7 +5,7 @@ import statistics
 
 app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///:memory:'
-app.config['SQLALCHEMY_DATABASE_URI'] ='postgresql-shaped-97404' #'sqlite:///formdata.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('postgresql-shaped-97404')#'postgresql-shaped-97404' #'sqlite:///formdata.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = 'True'
 
 db = SQLAlchemy(app)
